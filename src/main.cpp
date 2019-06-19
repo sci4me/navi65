@@ -4,6 +4,7 @@
 #include "types.h"
 #include "device.h"
 #include "bus.h"
+#include "cpu.h"
 #include "devices/memory.h"
 
 s32 main(s32 argc, char **argv) {
@@ -33,7 +34,12 @@ s32 main(s32 argc, char **argv) {
 	assert(fread(rom->data, 1, 0x8000, fp) == 0x8000);
 	assert(!fclose(fp));
 
-	
+	auto cpu = new CPU(bus);
+
+	cpu->cycle();
+
+	delete cpu;
+	delete bus;
 
 	return 0;
 }

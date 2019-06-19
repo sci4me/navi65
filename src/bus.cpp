@@ -5,6 +5,10 @@ Bus::Bus() {
 }
 
 Bus::~Bus() {
+	for(u64 i = 0; i < this->devices->count; i++) {
+		delete this->devices->get(i);
+	}
+	delete this->devices;
 }
 
 bool Bus::add(Device *device) {
