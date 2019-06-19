@@ -1,299 +1,304 @@
 case AND_IMM:
-    this->a &= this->read_u8();
+    DEBUG_TRACE_IMM("and");
+    this->a &= val;
     this->set_flags(this->a);
     break;
 
 case AND_ZP:
-    this->a &= this->bus->read(this->read_u8());
+    DEBUG_TRACE_ZP("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_ZPX:
-    this->a &= this->bus->read(ZP(this->read_u8() + this->x));
+    DEBUG_TRACE_ZPX("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a &= this->bus->read(mem_abs(arg1, arg2, 0));
+    DEBUG_TRACE_AB("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_ABX:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a &= this->bus->read(mem_abs(arg1, arg2, this->x));
+    DEBUG_TRACE_ABX("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_ABY:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a &= this->bus->read(mem_abs(arg1, arg2, this->y));
+    DEBUG_TRACE_ABY("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_INX:
-    this->a &= this->bus->read(mem_indexed_indirect(this, this->read_u8(), this->x));
+    DEBUG_TRACE_INX("inx");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_INY:
-    this->a &= this->bus->read(mem_indirect_index(this, this->read_u8(), this->y));
+    DEBUG_TRACE_INY("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case AND_INZP:
-    this->a &= this->bus->read(mem_indirect_zp(this, this->read_u8()));
+    DEBUG_TRACE_INZP("and");
+    this->a &= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_IMM:
-    this->a ^= this->read_u8();
+    DEBUG_TRACE_IMM("eor");
+    this->a ^= val;
     this->set_flags(this->a);
     break;
 
 case EOR_ZP:
-    this->a ^= this->bus->read(this->read_u8());
+    DEBUG_TRACE_ZP("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_ZPX:
-    this->a ^= this->bus->read(ZP(this->read_u8() + this->x));
+    DEBUG_TRACE_ZPX("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a ^= this->bus->read(mem_abs(arg1, arg2, 0));
+    DEBUG_TRACE_AB("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_ABX:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a ^= this->bus->read(mem_abs(arg1, arg2, this->x));
+    DEBUG_TRACE_ABX("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_ABY:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a ^= this->bus->read(mem_abs(arg1, arg2, this->y));
+    DEBUG_TRACE_ABY("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_INX:
-    this->a ^= this->bus->read(mem_indexed_indirect(this, this->read_u8(), this->x));
+    DEBUG_TRACE_INX("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_INY:
-    this->a ^= this->bus->read(mem_indirect_index(this, this->read_u8(), this->y));
+    DEBUG_TRACE_INY("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case EOR_INZP:
-    this->a ^= this->bus->read(mem_indirect_zp(this, this->read_u8()));
+    DEBUG_TRACE_INZP("eor");
+    this->a ^= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_IMM:
-    this->a |= this->read_u8();
+    DEBUG_TRACE_IMM("ora");
+    this->a |= val;
     this->set_flags(this->a);
     break;
 
 case ORA_ZP:
-    this->a |= this->bus->read(this->read_u8());
+    DEBUG_TRACE_ZP("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_ZPX:
-    this->a |= this->bus->read(ZP(this->read_u8() + this->x));
+    DEBUG_TRACE_ZPX("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a |= this->bus->read(mem_abs(arg1, arg2, 0));
+    DEBUG_TRACE_AB("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_ABX:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a |= this->bus->read(mem_abs(arg1, arg2, this->x));
+    DEBUG_TRACE_ABX("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_ABY:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->a |= this->bus->read(mem_abs(arg1, arg2, this->y));
+    DEBUG_TRACE_ABY("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_INX:
-    this->a |= this->bus->read(mem_indexed_indirect(this, this->read_u8(), this->x));
+    DEBUG_TRACE_INX("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_INY:
-    this->a |= this->bus->read(mem_indirect_index(this, this->read_u8(), this->y));
+    DEBUG_TRACE_INY("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case ORA_INZP:
-    this->a |= this->bus->read(mem_indirect_zp(this, this->read_u8()));
+    DEBUG_TRACE_INZP("ora");
+    this->a |= this->bus->read(addr);
     this->set_flags(this->a);
     break;
 
 case BIT_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    t1 = this->bus->read(mem_abs(arg1, arg2, 0));
+    DEBUG_TRACE_AB("bit");
+    t1 = this->bus->read(addr);
     this->set_flag(FLAG_ZERO, !(t1 & this->a));
     this->set_flag(FLAG_OVERFLOW, t1 & 0x40);
     this->set_flag(FLAG_NEGATIVE, t1 & 0x80);
     break;
 
 case BIT_ABX:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    t1 = this->bus->read(mem_abs(arg1, arg2, this->x));
+    DEBUG_TRACE_ABX("bit");
+    t1 = this->bus->read(addr);
     this->set_flag(FLAG_ZERO, !(t1 & this->a));
     this->set_flag(FLAG_OVERFLOW, t1 & 0x40);
     this->set_flag(FLAG_NEGATIVE, t1 & 0x80);
     break;
 
 case BIT_IMM:
-    t1 = this->read_u8();
-    this->set_flag(FLAG_ZERO, !(t1 & this->a));
-    this->set_flag(FLAG_OVERFLOW, t1 & 0x40);
-    this->set_flag(FLAG_NEGATIVE, t1 & 0x80);
+    DEBUG_TRACE_IMM("bit");
+    this->set_flag(FLAG_ZERO, !(val & this->a));
+    this->set_flag(FLAG_OVERFLOW, val & 0x40);
+    this->set_flag(FLAG_NEGATIVE, val & 0x80);
     break;    
 
 case BIT_ZP:
-    t1 = this->bus->read(this->read_u8());
+    DEBUG_TRACE_ZP("bit");
+    t1 = this->bus->read(addr);
     this->set_flag(FLAG_ZERO, !(t1 & this->a));
     this->set_flag(FLAG_OVERFLOW, t1 & 0x40);
     this->set_flag(FLAG_NEGATIVE, t1 & 0x80);
     break;
 
 case BIT_ZPX:
-    t1 = this->bus->read(ZP(this->read_u8() + this->x));
+    DEBUG_TRACE_ZPX("bit");
+    t1 = this->bus->read(addr);
     this->set_flag(FLAG_ZERO, !(t1 & this->a));
     this->set_flag(FLAG_OVERFLOW, t1 & 0x40);
     this->set_flag(FLAG_NEGATIVE, t1 & 0x80);
     break;
 
 case RMB0:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x01);
+    DEBUG_TRACE("rmb 0");
+    this->bus->write(addr, this->bus->read(addr) & ~0x01);
     break;
 
 case RMB1:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x02);
+    DEBUG_TRACE("rmb 1");
+    this->bus->write(addr, this->bus->read(addr) & ~0x02);
     break;
 
 case RMB2:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x04);
+    DEBUG_TRACE("rmb 2");
+    this->bus->write(addr, this->bus->read(addr) & ~0x04);
     break;
 
 case RMB3:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x08);
+    DEBUG_TRACE("rmb 3");
+    this->bus->write(addr, this->bus->read(addr) & ~0x08);
     break;
 
 case RMB4:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x10);
+    DEBUG_TRACE("rmb 4");
+    this->bus->write(addr, this->bus->read(addr) & ~0x10);
     break;
 
 case RMB5:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x20);
+    DEBUG_TRACE("rmb 5");
+    this->bus->write(addr, this->bus->read(addr) & ~0x20);
     break;
 
 case RMB6:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x40);
+    DEBUG_TRACE("rmb 6");
+    this->bus->write(addr, this->bus->read(addr) & ~0x40);
     break;
 
 case RMB7:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) & ~0x80);
+    DEBUG_TRACE("rmb 7");
+    this->bus->write(addr, this->bus->read(addr) & ~0x80);
     break;
 
 case SMB0:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x01);
+    DEBUG_TRACE("smb 0");
+    this->bus->write(addr, this->bus->read(addr) | 0x01);
     break;
 
 case SMB1:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x02);
+    DEBUG_TRACE("smb 1");
+    this->bus->write(addr, this->bus->read(addr) | 0x02);
     break;
 
 case SMB2:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x04);
+    DEBUG_TRACE("smb 2");
+    this->bus->write(addr, this->bus->read(addr) | 0x04);
     break;
 
 case SMB3:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x08);
+    DEBUG_TRACE("smb 3");
+    this->bus->write(addr, this->bus->read(addr) | 0x08);
     break;
 
 case SMB4:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x10);
+    DEBUG_TRACE("smb 4");
+    this->bus->write(addr, this->bus->read(addr) | 0x10);
     break;
 
 case SMB5:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x20);
+    DEBUG_TRACE("smb 5"); 
+    this->bus->write(addr, this->bus->read(addr) | 0x20);
     break;
 
 case SMB6:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x40);
+    DEBUG_TRACE("smb 6");
+    this->bus->write(addr, this->bus->read(addr) | 0x40);
     break;
 
 case SMB7:
-    r1 = this->read_u8();
-    this->bus->write(r1, this->bus->read(r1) | 0x80);
+    DEBUG_TRACE("smb 7");
+    this->bus->write(addr, this->bus->read(addr) | 0x80);
     break;
 
 case TRB_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, 0);
-    this->set_flag(FLAG_ZERO, this->bus->read(r1) & this->a);
-    this->bus->write(r1, this->bus->read(r1) & ~this->a);
+    DEBUG_TRACE_AB("trb");
+    this->set_flag(FLAG_ZERO, this->bus->read(addr) & this->a);
+    this->bus->write(addr, this->bus->read(addr) & ~this->a);
     break;
 
 case TRB_ZP:
-    r1 = this->read_u8();
-    this->set_flag(FLAG_ZERO, this->bus->read(r1) & this->a);
-    this->bus->write(r1, this->bus->read(r1) & ~this->a);
+    DEBUG_TRACE_ZP("trb");
+    this->set_flag(FLAG_ZERO, this->bus->read(addr) & this->a);
+    this->bus->write(addr, this->bus->read(addr) & ~this->a);
     break;
 
 case TSB_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, 0);
-    this->set_flag(FLAG_ZERO, this->bus->read(r1) & this->a);
-    this->bus->write(r1, this->bus->read(r1) | a);
+    DEBUG_TRACE_AB("tsb");
+    this->set_flag(FLAG_ZERO, this->bus->read(addr) & this->a);
+    this->bus->write(addr, this->bus->read(addr) | a);
     break;
 
 case TSB_ZP:
-    r1 = this->read_u8();
-    this->set_flag(FLAG_ZERO, this->bus->read(r1) & this->a);
-    this->bus->write(r1, this->bus->read(r1) | a);
+    DEBUG_TRACE_ZP("tsb");
+    this->set_flag(FLAG_ZERO, this->bus->read(addr) & this->a);
+    this->bus->write(addr, this->bus->read(addr) | a);
     break;

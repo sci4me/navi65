@@ -66,24 +66,105 @@ void CPU::cycle() {
 
     u16 addr = 0;
     u8 val = 0;
+    u8 t2 = 0;
+
+    u8 mode = OPCODE_ADDRESSING_MODES[opcode];
+    switch(mode) {
+        case AM_N:
+            break;
+        case AM_ACC:
+            break;
+        case AM_AB:
+            arg1 = this->read_u8();
+            arg2 = this->read_u8();
+            addr = mem_abs(arg1, arg2, 0);
+            break;
+        case AM_ABX:
+            arg1 = this->read_u8();
+            arg2 = this->read_u8();
+            addr = mem_abs(arg1, arg2, this->x);
+            break;
+        case AM_ABY:
+            arg1 = this->read_u8();
+            arg2 = this->read_u8();
+            addr = mem_abs(arg1, arg2, this->y);
+            break;
+        case AM_IMM:
+            val = this->read_u8();
+            break;
+        case AM_IN:
+            arg1 = this->read_u8();
+            r1 = mem_abs(arg1, this->read_u8(), 0);
+            addr = mem_abs(this->bus->read(r1), this->bus->read(r1+1), 0);
+            break;
+        case AM_INX:
+            t2 = this->read_u8();
+            addr = mem_indexed_indirect(this, t2, this->x);
+            break;
+        case AM_INY:
+            t2 = this->read_u8();
+            addr = mem_indirect_index(this, t2, this->y);
+            break;
+        case AM_REL:
+            s1 = this->read_u8();
+            break;
+        case AM_ZP:
+            addr = this->read_u8();
+            break;
+        case AM_IZP:
+            t2 = this->read_u8();
+            addr = mem_indirect_zp(this, t2);
+            break;
+        case AM_ZPX:
+            t2 = this->read_u8();
+            addr = ZP(t2 + this->x);
+            break;
+        case AM_ZPY:
+            t2 = this->read_u8();
+            addr = ZP(t2 + this->y);
+            break;
+        case AM_S:
+            break;
+        case AM_I:
+            break;
+        default:
+            fprintf(stderr, "Unrecognized addressing mode: %u\n", mode);
+            assert(false);
+    }
 
 #ifdef __DEBUG_TRACE__
-#define DEBUG_TRACE(...) printf(__VA_ARGS__)
-#define DEBUG_TRACE_AB(name) DEBUG_TRACE("%s $%04X", name, addr)
-#define DEBUG_TRACE_ABX(name) DEBUG_TRACE("%s $%04X,x", name, addr)
-#define DEBUG_TRACE_ABY(name) DEBUG_TRACE("%s $%04X,y", name, addr)
-#define DEBUG_TRACE_IMM(name) DEBUG_TRACE("%s $%02X", name, val)
-#define DEBUG_TRACE_INX(name) DEBUG_TRACE("%s ($%02X,x)", name, addr)
-#define DEBUG_TRACE_INY(name) DEBUG_TRACE("%s ($%02X),y", name, addr)
-#define DEBUG_TRACE_ZP(name) DEBUG_TRACE("%s $%02X", name, addr)
-#define DEBUG_TRACE_ZPX(name) DEBUG_TRACE("%s $%02X,x", name, addr)
-#define DEBUG_TRACE_INZP(name) DEBUG_TRACE("%s ($%02X)", name, addr)
-#define DEBUG_TRACE_REL(name) DEBUG_TRACE("%s * #$%02X", name, s1)
+#define DEBUG_TRACE(...)        printf(__VA_ARGS__)
+#define DEBUG_TRACE_ACC(name)   DEBUG_TRACE("%s a", name)
+#define DEBUG_TRACE_AB(name)    DEBUG_TRACE("%s $%04X", name, addr)
+#define DEBUG_TRACE_ABX(name)   DEBUG_TRACE("%s $%04X,x", name, addr)
+#define DEBUG_TRACE_ABY(name)   DEBUG_TRACE("%s $%04X,y", name, addr)
+#define DEBUG_TRACE_IMM(name)   DEBUG_TRACE("%s $%02X", name, val)
+#define DEBUG_TRACE_IN(name)    DEBUG_TRACE("%s ($%04X)", name, addr)
+#define DEBUG_TRACE_INX(name)   DEBUG_TRACE("%s ($%02X,x)", name, t2)
+#define DEBUG_TRACE_INY(name)   DEBUG_TRACE("%s ($%02X),y", name, t2)
+#define DEBUG_TRACE_REL(name)   DEBUG_TRACE("%s [#$%02X]", name, s1)
+#define DEBUG_TRACE_ZP(name)    DEBUG_TRACE("%s $%02X", name, addr)
+#define DEBUG_TRACE_INZP(name)  DEBUG_TRACE("%s ($%02X)", name, t2)
+#define DEBUG_TRACE_ZPX(name)   DEBUG_TRACE("%s $%02X,x", name, t2)
+#define DEBUG_TRACE_ZPY(name)   DEBUG_TRACE("%s $%02X,y", name, t2)
 #else
 #define DEBUG_TRACE(...)
+#define DEBUG_TRACE_ACC(name)
+#define DEBUG_TRACE_AB(name)
+#define DEBUG_TRACE_ABX(name)
+#define DEBUG_TRACE_ABY(name)
+#define DEBUG_TRACE_IMM(name)
+#define DEBUG_TRACE_IN(name)
+#define DEBUG_TRACE_INX(name)
+#define DEBUG_TRACE_INY(name)
+#define DEBUG_TRACE_REL(name)
+#define DEBUG_TRACE_ZP(name)
+#define DEBUG_TRACE_INZP(name)
+#define DEBUG_TRACE_ZPX(name)
+#define DEBUG_TRACE_ZPY(name)
 #endif
 
-    DEBUG_TRACE("%04X ", pc_start);
+    DEBUG_TRACE("%04X (%02X) ", this->pc - 1, opcode);
 
 	switch(opcode) {
 		#include "opcodes/arithmetic.h"

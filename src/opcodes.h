@@ -266,24 +266,22 @@
 #define WAI      0xCB
 #define STP 	 0xDB
 
-#define AM_N 0
-
-#define AM_AB 1
-#define AM_ABX 2
-#define AM_ABY 3
-#define AM_ACC 4
-#define AM_IMM 5
-#define AM_IN 6
-#define AM_INX 7
-#define AM_INY 8
-#define AM_REL 9
-#define AM_ZP 10
-#define AM_IZP 11
-#define AM_ZPX 12
-#define AM_ZPY 13
-
-#define AM_S 13
-#define AM_I 14
+#define AM_N 	0x00
+#define AM_AB 	0x01
+#define AM_ABX  0x02
+#define AM_ABY  0x03
+#define AM_ACC  0x04
+#define AM_IMM  0x05
+#define AM_IN   0x06
+#define AM_INX  0x07
+#define AM_INY  0x08
+#define AM_REL  0x09
+#define AM_ZP 	0x0A
+#define AM_IZP  0x0B
+#define AM_ZPX  0x0C
+#define AM_ZPY  0x0D
+#define AM_S 	0x0E
+#define AM_I 	0x0F
 
 extern const u8 OPCODE_ADDRESSING_MODES[256];
 

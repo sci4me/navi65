@@ -1,69 +1,74 @@
 case CMP_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->cmp(this->bus->read(mem_abs(arg1, arg2, 0)), this->a);
+    DEBUG_TRACE_AB("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_ABX:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->cmp(this->bus->read(mem_abs(arg1, arg2, this->x)), this->a);
+    DEBUG_TRACE_ABX("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_ABY:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->cmp(this->bus->read(mem_abs(arg1, arg2, this->y)), this->a);
+    DEBUG_TRACE_ABY("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_IMM:
-    this->cmp(this->read_u8(), this->a);
+    DEBUG_TRACE_IMM("cmp");
+    this->cmp(val, this->a);
     break;
 
 case CMP_INX:
-    this->cmp(this->bus->read(mem_indexed_indirect(this, this->read_u8(), this->x)), this->a);
+    DEBUG_TRACE_INX("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_INY:
-    this->cmp(this->bus->read(mem_indirect_index(this, this->read_u8(), this->y)), this->a);
+    DEBUG_TRACE_INY("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_ZP:
-    this->cmp(this->bus->read(this->read_u8()), this->a);
+    DEBUG_TRACE_ZP("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_ZPX:
-    this->cmp(this->bus->read(ZP(this->read_u8() + this->x)), this->a);
+    DEBUG_TRACE_ZPX("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CMP_INZP:
-    this->cmp(this->bus->read(mem_indirect_zp(this, this->read_u8())), this->a);
+    DEBUG_TRACE_INZP("cmp");
+    this->cmp(this->bus->read(addr), this->a);
     break;
 
 case CPX_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->cmp(this->bus->read(mem_abs(arg1, arg2, 0)), this->x);
+    DEBUG_TRACE_AB("cpx");
+    this->cmp(this->bus->read(addr), this->x);
     break;
 
 case CPX_IMM:
-    this->cmp(this->read_u8(), this->x);
+    DEBUG_TRACE_IMM("cpx");
+    this->cmp(val, this->x);
     break;
 
 case CPX_ZP:
-    this->cmp(this->bus->read(this->read_u8()), this->x);
+    DEBUG_TRACE_ZP("cpx");
+    this->cmp(this->bus->read(t2), this->x);
     break;
 
 case CPY_AB:
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    this->cmp(this->bus->read(mem_abs(arg1, arg2, 0)), this->y);
+    DEBUG_TRACE_AB("cpy");
+    this->cmp(this->bus->read(addr), this->y);
     break;
 
 case CPY_IMM:
-    this->cmp(this->read_u8(), this->y);
+    DEBUG_TRACE_IMM("cpy");
+    this->cmp(val, this->y);
     break;
 
 case CPY_ZP:
-    this->cmp(this->bus->read(this->read_u8()), this->y);
+    DEBUG_TRACE_ZP("cpy");
+    this->cmp(this->bus->read(addr), this->y);
     break;

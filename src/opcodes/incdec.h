@@ -1,96 +1,93 @@
 case INC_ACC:
+    DEBUG_TRACE_ACC("inc");
     this->set_flags(++this->a);
     break;
 
 case INC_AB: {
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, 0);
-    auto value = this->bus->read(r1) + 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_AB("inc");
+    auto value = this->bus->read(addr) + 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case INC_ABX: {
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, this->x);
-    auto value = this->bus->read(r1) + 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_ABX("inc");
+    auto value = this->bus->read(addr) + 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case INC_ZP: {
-    r1 = this->read_u8();
-    auto value = this->bus->read(r1) + 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_ZP("inc");
+    auto value = this->bus->read(addr) + 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case INC_ZPX: {
-    r1 = ZP(this->read_u8() + this->x);
-    auto value = this->bus->read(r1) + 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_ZPX("inc");
+    auto value = this->bus->read(addr) + 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case INX:
+    DEBUG_TRACE("inx");
     this->set_flags(++this->x);
     break;
 
 case INY:
+    DEBUG_TRACE("iny");
     this->set_flags(++this->y);
     break;
 
 case DEC_ACC:
+    DEBUG_TRACE_ACC("dec");
     this->set_flags(--this->a);
     break;
 
 case DEC_AB: {
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, 0);
-    auto value = this->bus->read(r1) - 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_AB("dec");
+    auto value = this->bus->read(addr) - 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case DEC_ABX: {
-    arg1 = this->read_u8();
-    arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, this->x);
-
-    auto value = this->bus->read(r1) - 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_ABX("dec");
+    auto value = this->bus->read(addr) - 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case DEC_ZP: {
-    r1 = this->read_u8();
-    auto value = this->bus->read(r1) - 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_ZP("dec");
+    auto value = this->bus->read(addr) - 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case DEC_ZPX: {
-    r1 = ZP(this->read_u8() + this->x);
-    auto value = this->bus->read(r1) - 1;
-    this->bus->write(r1, value);
+    DEBUG_TRACE_ZPX("dec");
+    auto value = this->bus->read(addr) - 1;
+    this->bus->write(addr, value);
     this->set_flags(value);
     break;
 }
 
 case DEX:
+    DEBUG_TRACE("dex");
     this->set_flags(--this->x);
     break;
 
 case DEY:
+    DEBUG_TRACE("dex");
     this->set_flags(--this->y);
     break;
