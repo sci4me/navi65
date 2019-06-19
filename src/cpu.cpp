@@ -76,10 +76,10 @@ void CPU::cycle() {
         #include "opcodes/jump.h"
         #include "opcodes/load.h"
         #include "opcodes/logical.h"
-        //#include "opcodes/shift.h"
-        //#include "opcodes/stack.h"
-        //#include "opcodes/store.h"
-        //#include "opcodes/transfer.h"
+        #include "opcodes/shift.h"
+        #include "opcodes/stack.h"
+        #include "opcodes/store.h"
+        #include "opcodes/transfer.h"
         case NOP:
 		default:
         	break;

@@ -1,28 +1,28 @@
 case TAX:
-    m->x = m->ac;
-    this->set_flags(m->x);
+    this->x = this->a;
+    this->set_flags(this->x);
     break;
 
 case TAY:
-    m->y = m->ac;
-    this->set_flags(m->y);
+    this->y = this->a;
+    this->set_flags(this->y);
     break;
 
 case TSX:
-    m->x = m->sp;
-    this->set_flags(m->x);
+    this->x = this->sp;
+    this->set_flags(this->x);
     break;
 
 case TXA:
-    m->ac = m->x;
-    this->set_flags(m->ac);
+    this->a = this->x;
+    this->set_flags(this->a);
     break;
 
 case TXS:
-    m->sp = m->x;
+    this->sp = this->x;
     break;
 
 case TYA:
-    m->ac = m->y;
-    this->set_flags(m->ac);
+    this->a = this->y;
+    this->set_flags(this->a);
     break;

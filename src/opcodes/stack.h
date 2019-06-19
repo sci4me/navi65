@@ -1,31 +1,31 @@
 case PHA:
-    STACK_PUSH(m) = m->ac;
+    this->push(this->a);
     break;
 
 case PHP:
-    STACK_PUSH(m) = m->sr;
+    this->push(this->flags);
     break;
 
 case PLA:
-    m->ac = STACK_POP(m);
+    this->a = this->pop();
     break;
 
 case PLP:
-    m->sr = STACK_POP(m);
+    this->flags = this->pop();
     break;
 
 case PHX:
-	STACK_PUSH(m) = m->x;
+	this->push(this->x);
     break;
 
 case PHY:
-	STACK_PUSH(m) = m->y;
+	this->push(this->y);
     break;
 
 case PLX:
-	m->x = STACK_POP(m);
+	this->x = this->pop();
     break;
 
 case PLY:
-	m->y = STACK_POP(m);
+	this->y = this->pop();
     break;
