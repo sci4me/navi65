@@ -46,7 +46,6 @@ CPU::CPU(Bus *_bus) : bus(_bus) {
 CPU::~CPU() {
 }
 
-#include <stdio.h>
 void CPU::reset() {
     this->pc = this->bus->read_u16(RESET_VECTOR);
 }
