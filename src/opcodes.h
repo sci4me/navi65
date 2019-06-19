@@ -282,6 +282,7 @@
 #define AM_ZPY  0x0D
 #define AM_S 	0x0E
 #define AM_I 	0x0F
+#define AM_ZPR  0x10
 
 extern const u8 OPCODE_ADDRESSING_MODES[256];
 

@@ -95,7 +95,7 @@ void CPU::cycle() {
         case AM_IN:
             arg1 = this->read_u8();
             r1 = mem_abs(arg1, this->read_u8(), 0);
-            addr = mem_abs(this->bus->read(r1), this->bus->read(r1+1), 0);
+            addr = mem_abs(this->bus->read(r1), this->bus->read(r1 + 1), 0);
             break;
         case AM_INX:
             t2 = this->read_u8();
@@ -106,6 +106,10 @@ void CPU::cycle() {
             addr = mem_indirect_index(this, t2, this->y);
             break;
         case AM_REL:
+            s1 = this->read_u8();
+            break;
+        case AM_ZPR:
+            r1 = this->read_u8();
             s1 = this->read_u8();
             break;
         case AM_ZP:
@@ -142,7 +146,7 @@ void CPU::cycle() {
 #define DEBUG_TRACE_IN(name)    DEBUG_TRACE("%s ($%04X)", name, addr)
 #define DEBUG_TRACE_INX(name)   DEBUG_TRACE("%s ($%02X,x)", name, t2)
 #define DEBUG_TRACE_INY(name)   DEBUG_TRACE("%s ($%02X),y", name, t2)
-#define DEBUG_TRACE_REL(name)   DEBUG_TRACE("%s [#$%02X]", name, s1)
+#define DEBUG_TRACE_REL(name)   DEBUG_TRACE("%s [%02d]", name, s1)
 #define DEBUG_TRACE_ZP(name)    DEBUG_TRACE("%s $%02X", name, addr)
 #define DEBUG_TRACE_INZP(name)  DEBUG_TRACE("%s ($%02X)", name, t2)
 #define DEBUG_TRACE_ZPX(name)   DEBUG_TRACE("%s $%02X,x", name, t2)
@@ -181,8 +185,10 @@ void CPU::cycle() {
         #include "opcodes/store.h"
         #include "opcodes/transfer.h"
         case NOP:
+            DEBUG_TRACE("nop");
         	break;
         case STP:
+            DEBUG_TRACE("stp");
         	this->stopped = true;
         	break;
         default:

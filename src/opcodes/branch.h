@@ -56,7 +56,7 @@ case BVS_REL:
 
 case BRA:
     branch_offset = this->read_u8();
-    DEBUG_TRACE("bra $%02X", branch_offset);
+    DEBUG_TRACE("bra %d", branch_offset);
     break;
 
 case BBR0:
