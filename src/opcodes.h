@@ -1,6 +1,8 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
+#include "types.h"
+
 #define STACK_START 0x0100
 
 #define NMI_VECTOR 0xFFFA
@@ -263,5 +265,26 @@
 
 #define WAI      0xCB
 #define STP 	 0xDB
+
+#define AM_N 0
+
+#define AM_AB 1
+#define AM_ABX 2
+#define AM_ABY 3
+#define AM_ACC 4
+#define AM_IMM 5
+#define AM_IN 6
+#define AM_INX 7
+#define AM_INY 8
+#define AM_REL 9
+#define AM_ZP 10
+#define AM_IZP 11
+#define AM_ZPX 12
+#define AM_ZPY 13
+
+#define AM_S 13
+#define AM_I 14
+
+extern const u8 OPCODE_ADDRESSING_MODES[256];
 
 #endif

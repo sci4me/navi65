@@ -64,6 +64,27 @@ void CPU::cycle() {
 	u16 pc_start = this->pc;
 	s8 branch_offset = 0;
 
+    u16 addr = 0;
+    u8 val = 0;
+
+#ifdef __DEBUG_TRACE__
+#define DEBUG_TRACE(...) printf(__VA_ARGS__)
+#define DEBUG_TRACE_AB(name) DEBUG_TRACE("%s $%04X", name, addr)
+#define DEBUG_TRACE_ABX(name) DEBUG_TRACE("%s $%04X,x", name, addr)
+#define DEBUG_TRACE_ABY(name) DEBUG_TRACE("%s $%04X,y", name, addr)
+#define DEBUG_TRACE_IMM(name) DEBUG_TRACE("%s $%02X", name, val)
+#define DEBUG_TRACE_INX(name) DEBUG_TRACE("%s ($%02X,x)", name, addr)
+#define DEBUG_TRACE_INY(name) DEBUG_TRACE("%s ($%02X),y", name, addr)
+#define DEBUG_TRACE_ZP(name) DEBUG_TRACE("%s $%02X", name, addr)
+#define DEBUG_TRACE_ZPX(name) DEBUG_TRACE("%s $%02X,x", name, addr)
+#define DEBUG_TRACE_INZP(name) DEBUG_TRACE("%s ($%02X)", name, addr)
+#define DEBUG_TRACE_REL(name) DEBUG_TRACE("%s * #$%02X", name, s1)
+#else
+#define DEBUG_TRACE(...)
+#endif
+
+    DEBUG_TRACE("%04X ", pc_start);
+
 	switch(opcode) {
 		#include "opcodes/arithmetic.h"
         #include "opcodes/branch.h"
@@ -87,6 +108,8 @@ void CPU::cycle() {
             printf("Unrecognized opcode: %02X\n", opcode);
             break;
 	}
+
+    DEBUG_TRACE("\n");
 
 	if (this->pc == pc_start) {
         this->pc += pc_offset;

@@ -6,7 +6,7 @@ OBJECTS=$(patsubst %.cpp,%.o,$(filter %.cpp,$(SOURCES)))
 
 EXECUTABLE=navi65
 LDFLAGS=
-CXXFLAGS=
+CXXFLAGS=-D__DEBUG_TRACE__
 
 .PHONY: all clean
 
