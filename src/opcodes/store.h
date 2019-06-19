@@ -30,7 +30,7 @@ case STA_INY:
     break;
 
 case STA_ZP:
-    r1 = ZP(this->read_u8());
+    r1 = this->read_u8();
     this->bus->write(r1, this->a);
     break;
 
@@ -45,7 +45,7 @@ case STA_INZP:
     break;
 
 case STX_ZP:
-    r1 = ZP(this->read_u8());
+    r1 = this->read_u8();
     this->bus->write(r1, this->x);
     break;
 
@@ -62,7 +62,7 @@ case STX_AB:
     break;
 
 case STY_ZP:
-    r1 = ZP(this->read_u8());
+    r1 = this->read_u8();
     this->bus->write(r1, this->y);
     break;
 
@@ -93,7 +93,7 @@ case STZ_ABX:
     break;
 
 case STZ_ZP:
-    r1 = ZP(this->read_u8());
+    r1 = this->read_u8();
     this->bus->write(r1, 0);
     break;
 

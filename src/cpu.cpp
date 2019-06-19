@@ -50,6 +50,7 @@ void CPU::reset() {
     this->pc = this->bus->read_u16(RESET_VECTOR);
 }
 
+#include <stdio.h>
 void CPU::cycle() {
 	u8 opcode = this->read_u8();
 
@@ -62,7 +63,6 @@ void CPU::cycle() {
 	u8 pc_offset = 0;
 	u16 pc_start = this->pc;
 	s8 branch_offset = 0;
-
 
 	switch(opcode) {
 		#include "opcodes/arithmetic.h"
@@ -79,11 +79,13 @@ void CPU::cycle() {
         #include "opcodes/store.h"
         #include "opcodes/transfer.h"
         case NOP:
-		default:
         	break;
         case STP:
         	this->stopped = true;
         	break;
+        default:
+            printf("Unrecognized opcode: %02X\n", opcode);
+            break;
 	}
 
 	if (this->pc == pc_start) {

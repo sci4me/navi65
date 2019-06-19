@@ -38,7 +38,10 @@
 #define BEQ_REL  0xF0
 
 #define BIT_AB   0x2C
+#define BIT_ABX  0x3C
 #define BIT_ZP   0x24
+#define BIT_ZPX  0x34
+#define BIT_IMM	 0x89
 
 #define BMI_REL  0x30
 #define BNE_REL  0xD0

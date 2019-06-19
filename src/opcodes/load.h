@@ -40,7 +40,7 @@ case LDA_ZP:
     break;
 
 case LDA_ZPX:
-    this->a = this->bus->read(this->read_u8() + this->x);
+    this->a = this->bus->read(ZP(this->read_u8() + this->x));
     this->set_flags(this->a);
     break;
 
@@ -73,7 +73,7 @@ case LDX_ZP:
     break;
 
 case LDX_ZPY:
-    this->x = this->bus->read(this->read_u8() + this->y);
+    this->x = this->bus->read(ZP(this->read_u8() + this->y));
     this->set_flags(this->x);
     break;
 
@@ -102,6 +102,6 @@ case LDY_ZP:
     break;
 
 case LDY_ZPX:
-    this->y = this->bus->read(this->read_u8() + this->x);
+    this->y = this->bus->read(ZP(this->read_u8() + this->x));
     this->set_flags(this->y);
     break;
