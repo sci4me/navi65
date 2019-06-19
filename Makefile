@@ -1,7 +1,7 @@
 SRC_DIR=src
 CC=g++
 
-SOURCES=$(wildcard $(SRC_DIR)/*.cpp)
+SOURCES=$(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/*/*.cpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(filter %.cpp,$(SOURCES)))
 
 EXECUTABLE=navi65

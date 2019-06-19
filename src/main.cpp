@@ -4,7 +4,7 @@
 #include "types.h"
 #include "device.h"
 #include "bus.h"
-#include "memory.h"
+#include "devices/memory.h"
 
 s32 main(s32 argc, char **argv) {
 	if(argc != 2) {
