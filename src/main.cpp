@@ -6,6 +6,7 @@
 #include "bus.h"
 #include "cpu.h"
 #include "devices/memory.h"
+#include "devices/terminal.h"
 
 s32 main(s32 argc, char **argv) {
 	if(argc != 2) {
@@ -14,9 +15,11 @@ s32 main(s32 argc, char **argv) {
 	}
 
 	auto bus = new Bus();
-	auto ram = new Memory({.start = 0x0000, .end = 0x7FFF}, false);
+	auto ram = new Memory({.start = 0x0000, .end = 0x7FFE}, false);
+	auto term = new Terminal(0x7FFF);
 	auto rom = new Memory({.start = 0x8000, .end = 0xFFFF}, true);
 	assert(bus->add(ram));
+	assert(bus->add(term));
 	assert(bus->add(rom));
 
 	auto fp = fopen(argv[1], "rb");
@@ -26,7 +29,7 @@ s32 main(s32 argc, char **argv) {
 	fseek(fp, 0L, SEEK_SET);
 	
 	if(size != 0x8000) {
-		fclose(fp);
+		assert(!fclose(fp));
 		fprintf(stderr, "Expected ROM size to be 0x8000, got 0x%04X\n", size);
 		return 1;
 	}
@@ -48,11 +51,9 @@ s32 main(s32 argc, char **argv) {
 
 	auto cpu = new CPU(bus);
 
-	u32 i = 0;
 	cpu->reset();
-	while(!cpu->stopped && i < 10) {
+	while(!cpu->stopped) {
 		cpu->cycle();
-		i++;
 	}
 
 	delete cpu;

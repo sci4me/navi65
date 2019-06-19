@@ -32,6 +32,7 @@ static inline u8 bcd(u8 val) {
 
 CPU::CPU(Bus *_bus) : bus(_bus) {
 	this->stopped = false;
+    this->interrupt_waiting = false;
 	this->break_waiting = false;
 	
 	this->pc = 0;
@@ -51,9 +52,7 @@ void CPU::reset() {
 }
 
 void CPU::cycle() {
-    printf("%04X", this->pc);
 	u8 opcode = this->read_u8();
-    printf(" %02X\n", opcode);
 
 	u8 arg1 = 0;
 	u8 arg2 = 0;
