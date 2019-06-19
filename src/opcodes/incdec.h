@@ -1,79 +1,96 @@
 case INC_ACC:
-    set_flags(m, ++m->ac);
+    this->set_flags(++this->a);
     break;
 
-case INC_AB:
+case INC_AB: {
     arg1 = this->read_u8();
     arg2 = this->read_u8();
     r1 = mem_abs(arg1, arg2, 0);
-    set_flags(m, ++m->mem[r1]);
-    mark_dirty(m, r1);
+    auto value = this->bus->read(r1) + 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
-case INC_ABX:
+case INC_ABX: {
     arg1 = this->read_u8();
     arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, m->x);
-    set_flags(m, ++m->mem[r1]);
-    mark_dirty(m, r1);
+    r1 = mem_abs(arg1, arg2, this->x);
+    auto value = this->bus->read(r1) + 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
-case INC_ZP:
+case INC_ZP: {
     r1 = this->read_u8();
-    set_flags(m, ++m->mem[r1]);
-    mark_dirty(m, r1);
+    auto value = this->bus->read(r1) + 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
-case INC_ZPX:
-    r1 = ZP(this->read_u8() + m->x);
-    set_flags(m, ++m->mem[r1]);
-    mark_dirty(m, r1);
+case INC_ZPX: {
+    r1 = ZP(this->read_u8() + this->x);
+    auto value = this->bus->read(r1) + 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
 case INX:
-    set_flags(m, ++m->x);
+    this->set_flags(++this->x);
     break;
 
 case INY:
-    set_flags(m, ++m->y);
+    this->set_flags(++this->y);
     break;
 
 case DEC_ACC:
-    set_flags(m, --m->ac);
+    this->set_flags(--this->a);
     break;
 
-case DEC_AB:
+case DEC_AB: {
     arg1 = this->read_u8();
     arg2 = this->read_u8();
     r1 = mem_abs(arg1, arg2, 0);
-    set_flags(m, --m->mem[r1]);
-    mark_dirty(m, r1);
+    auto value = this->bus->read(r1) - 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
-case DEC_ABX:
+case DEC_ABX: {
     arg1 = this->read_u8();
     arg2 = this->read_u8();
-    r1 = mem_abs(arg1, arg2, m->x);
-    set_flags(m, --m->mem[r1]);
-    mark_dirty(m, r1);
-    break;
+    r1 = mem_abs(arg1, arg2, this->x);
 
-case DEC_ZP:
+    auto value = this->bus->read(r1) - 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
+    break;
+}
+
+case DEC_ZP: {
     r1 = this->read_u8();
-    set_flags(m, --m->mem[r1]);
-    mark_dirty(m, r1);
+    auto value = this->bus->read(r1) - 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
-case DEC_ZPX:
-    r1 = ZP(this->read_u8() + m->x);
-    set_flags(m, --m->mem[r1]);
-    mark_dirty(m, r1);
+case DEC_ZPX: {
+    r1 = ZP(this->read_u8() + this->x);
+    auto value = this->bus->read(r1) - 1;
+    this->bus->write(r1, value);
+    this->set_flags(value);
     break;
+}
 
 case DEX:
-    set_flags(m, --m->x);
+    this->set_flags(--this->x);
     break;
 
 case DEY:
-    set_flags(m, --m->y);
+    this->set_flags(--this->y);
     break;
