@@ -24,5 +24,5 @@ case JSR_AB:
 
 case RTS:
     DEBUG_TRACE("rts");
-    this->pc = this->pop_u16();
+    this->pc = this->pop_u16() + 1;
     break;

@@ -12,7 +12,7 @@
     #define DEBUG_TRACE_AB(name)    DEBUG_TRACE("%s $%04X", name, addr)
     #define DEBUG_TRACE_ABX(name)   DEBUG_TRACE("%s $%04X,x", name, addr)
     #define DEBUG_TRACE_ABY(name)   DEBUG_TRACE("%s $%04X,y", name, addr)
-    #define DEBUG_TRACE_IMM(name)   DEBUG_TRACE("%s $%02X", name, val)
+    #define DEBUG_TRACE_IMM(name)   DEBUG_TRACE("%s #$%02X", name, val)
     #define DEBUG_TRACE_IN(name)    DEBUG_TRACE("%s ($%04X)", name, addr)
     #define DEBUG_TRACE_INX(name)   DEBUG_TRACE("%s ($%02X,x)", name, t2)
     #define DEBUG_TRACE_INY(name)   DEBUG_TRACE("%s ($%02X),y", name, t2)
