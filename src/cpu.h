@@ -41,10 +41,13 @@ private:
 	void cmp(u8 mem, u8 reg);
 
 	void push(u8 value);
+	void push_u16(u16 value);
 	u8 pop();
+	u16 pop_u16();
 
 	u8 read_u8();
 	u16 read_u16();
+
 };
 
 #endif

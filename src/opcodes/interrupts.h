@@ -7,8 +7,7 @@ case BRK:
 case RTI:
     DEBUG_TRACE("rti");
     this->flags = this->pop();
-    arg1 = this->pop();
-    this->pc = mem_abs(arg1, this->pop(), 0);
+    this->pc = this->pop_u16();
     break;
 
 case WAI:

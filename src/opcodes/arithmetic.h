@@ -65,12 +65,12 @@ case SBC_IMM:
 
 case SBC_INX:
     DEBUG_TRACE_INX("sbc");
-    this->sub(this->bus->read(mem_indexed_indirect(this, addr, this->x)));
+    this->sub(this->bus->read(addr));
     break;
 
 case SBC_INY:
     DEBUG_TRACE_INY("sbc");
-    this->sub(this->bus->read(mem_indirect_index(this, addr, this->y)));
+    this->sub(this->bus->read(addr));
     break;
 
 case SBC_ZP:

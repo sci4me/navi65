@@ -1,9 +1,42 @@
+#include <stdio.h>
 #include <assert.h>
 
 #include "cpu.h"
 #include "opcodes.h"
 
 #define ZP(x) ((u8) (x))
+
+#ifdef __DEBUG_TRACE__
+    #define DEBUG_TRACE(...)        printf(__VA_ARGS__)
+    #define DEBUG_TRACE_ACC(name)   DEBUG_TRACE("%s a", name)
+    #define DEBUG_TRACE_AB(name)    DEBUG_TRACE("%s $%04X", name, addr)
+    #define DEBUG_TRACE_ABX(name)   DEBUG_TRACE("%s $%04X,x", name, addr)
+    #define DEBUG_TRACE_ABY(name)   DEBUG_TRACE("%s $%04X,y", name, addr)
+    #define DEBUG_TRACE_IMM(name)   DEBUG_TRACE("%s $%02X", name, val)
+    #define DEBUG_TRACE_IN(name)    DEBUG_TRACE("%s ($%04X)", name, addr)
+    #define DEBUG_TRACE_INX(name)   DEBUG_TRACE("%s ($%02X,x)", name, t2)
+    #define DEBUG_TRACE_INY(name)   DEBUG_TRACE("%s ($%02X),y", name, t2)
+    #define DEBUG_TRACE_REL(name)   DEBUG_TRACE("%s [%02d]", name, s1)
+    #define DEBUG_TRACE_ZP(name)    DEBUG_TRACE("%s $%02X", name, addr)
+    #define DEBUG_TRACE_INZP(name)  DEBUG_TRACE("%s ($%02X)", name, t2)
+    #define DEBUG_TRACE_ZPX(name)   DEBUG_TRACE("%s $%02X,x", name, t2)
+    #define DEBUG_TRACE_ZPY(name)   DEBUG_TRACE("%s $%02X,y", name, t2)
+#else
+    #define DEBUG_TRACE(...)
+    #define DEBUG_TRACE_ACC(name)
+    #define DEBUG_TRACE_AB(name)
+    #define DEBUG_TRACE_ABX(name)
+    #define DEBUG_TRACE_ABY(name)
+    #define DEBUG_TRACE_IMM(name)
+    #define DEBUG_TRACE_IN(name)
+    #define DEBUG_TRACE_INX(name)
+    #define DEBUG_TRACE_INY(name)
+    #define DEBUG_TRACE_REL(name)
+    #define DEBUG_TRACE_ZP(name)
+    #define DEBUG_TRACE_INZP(name)
+    #define DEBUG_TRACE_ZPX(name)
+    #define DEBUG_TRACE_ZPY(name)
+#endif
 
 static inline u16 mem_abs(u8 low, u8 high, u8 off) {
     return (u16) off + (u16) low + ((u16) high << 8);
@@ -50,12 +83,9 @@ void CPU::reset() {
     this->pc = this->bus->read_u16(RESET_VECTOR);
 }
 
-#include <stdio.h>
 void CPU::cycle() {
 	u8 opcode = this->read_u8();
 
-	u8 arg1 = 0;
-	u8 arg2 = 0;
 	u8 t1 = 0;
 	s8 s1 = 0;
 	u16 r1 = 0;
@@ -75,26 +105,19 @@ void CPU::cycle() {
         case AM_ACC:
             break;
         case AM_AB:
-            arg1 = this->read_u8();
-            arg2 = this->read_u8();
-            addr = mem_abs(arg1, arg2, 0);
+            addr = this->read_u16();
             break;
         case AM_ABX:
-            arg1 = this->read_u8();
-            arg2 = this->read_u8();
-            addr = mem_abs(arg1, arg2, this->x);
+            addr = this->read_u16() + this->x;
             break;
         case AM_ABY:
-            arg1 = this->read_u8();
-            arg2 = this->read_u8();
-            addr = mem_abs(arg1, arg2, this->y);
+            addr = this->read_u16() + this->y;
             break;
         case AM_IMM:
             val = this->read_u8();
             break;
         case AM_IN:
-            arg1 = this->read_u8();
-            r1 = mem_abs(arg1, this->read_u8(), 0);
+            r1 = this->read_u16();
             addr = mem_abs(this->bus->read(r1), this->bus->read(r1 + 1), 0);
             break;
         case AM_INX:
@@ -135,38 +158,6 @@ void CPU::cycle() {
             fprintf(stderr, "Unrecognized addressing mode: %u\n", mode);
             assert(false);
     }
-
-#ifdef __DEBUG_TRACE__
-#define DEBUG_TRACE(...)        printf(__VA_ARGS__)
-#define DEBUG_TRACE_ACC(name)   DEBUG_TRACE("%s a", name)
-#define DEBUG_TRACE_AB(name)    DEBUG_TRACE("%s $%04X", name, addr)
-#define DEBUG_TRACE_ABX(name)   DEBUG_TRACE("%s $%04X,x", name, addr)
-#define DEBUG_TRACE_ABY(name)   DEBUG_TRACE("%s $%04X,y", name, addr)
-#define DEBUG_TRACE_IMM(name)   DEBUG_TRACE("%s $%02X", name, val)
-#define DEBUG_TRACE_IN(name)    DEBUG_TRACE("%s ($%04X)", name, addr)
-#define DEBUG_TRACE_INX(name)   DEBUG_TRACE("%s ($%02X,x)", name, t2)
-#define DEBUG_TRACE_INY(name)   DEBUG_TRACE("%s ($%02X),y", name, t2)
-#define DEBUG_TRACE_REL(name)   DEBUG_TRACE("%s [%02d]", name, s1)
-#define DEBUG_TRACE_ZP(name)    DEBUG_TRACE("%s $%02X", name, addr)
-#define DEBUG_TRACE_INZP(name)  DEBUG_TRACE("%s ($%02X)", name, t2)
-#define DEBUG_TRACE_ZPX(name)   DEBUG_TRACE("%s $%02X,x", name, t2)
-#define DEBUG_TRACE_ZPY(name)   DEBUG_TRACE("%s $%02X,y", name, t2)
-#else
-#define DEBUG_TRACE(...)
-#define DEBUG_TRACE_ACC(name)
-#define DEBUG_TRACE_AB(name)
-#define DEBUG_TRACE_ABX(name)
-#define DEBUG_TRACE_ABY(name)
-#define DEBUG_TRACE_IMM(name)
-#define DEBUG_TRACE_IN(name)
-#define DEBUG_TRACE_INX(name)
-#define DEBUG_TRACE_INY(name)
-#define DEBUG_TRACE_REL(name)
-#define DEBUG_TRACE_ZP(name)
-#define DEBUG_TRACE_INZP(name)
-#define DEBUG_TRACE_ZPX(name)
-#define DEBUG_TRACE_ZPY(name)
-#endif
 
     DEBUG_TRACE("%04X (%02X) ", this->pc - 1, opcode);
 
@@ -209,7 +200,7 @@ void CPU::cycle() {
         this->push(this->flags);
 
         this->break_waiting = 0x00;
-        this->pc = mem_abs(this->bus->read(0xFFFE), this->bus->read(0xFFFF), 0);
+        this->pc = this->bus->read_u16(IRQ_VECTOR);
         this->flags |= FLAG_INTERRUPT;
     }
 }
@@ -268,8 +259,19 @@ void CPU::push(u8 value) {
     this->bus->write(this->sp--, value);
 }
 
+void CPU::push_u16(u16 value) {
+    this->push((value >> 8) & 0xFF);
+    this->push(value & 0xFF);
+}
+
 u8 CPU::pop() {
     return this->bus->read(++this->sp);
+}
+
+u16 CPU::pop_u16() {
+    u8 lo = this->pop();
+    u8 hi = this->pop();
+    return lo | (hi << 8);
 }
 
 u8 CPU::read_u8() {
